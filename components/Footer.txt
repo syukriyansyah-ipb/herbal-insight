@@ -1,0 +1,45 @@
+import React from 'react'
+
+export default function Footer() {
+  return (
+    <div className=' w-full h-[260px] sm:h-[435px] bg-gradient-to-b from-[#5C8359] to-[#274931]'>
+      <div className='sm:flex sm:justify-between'>
+        <div className=' text-slate-100 sm:mt-8 ml-4 sm:ml-10'>
+          <div>
+            <h1 className='font-bold pt-3 sm:pt-0 mb-2'>Address</h1>
+            <h1 className='md:w-[300px] w-full text-[13px] sm:text-[14px]'>Wing 20, Jl. Meranti Kampus IPB Level 5,
+              Babakan, Kec. Dramaga, Kabupaten Bogor, Jawa Barat 16680
+            </h1>
+          </div>
+          <div className='mt-6'>
+            <h1 className='font-bold pt-7 sm:pt-0 pl-4 sm:pl-0 mb-2 '>Kontak</h1>
+            <h1 className='text-[13px] sm:text-[14px] mb-1 pl-4 sm:pl-0'>ilkom@apps.ipb.ac.id</h1>
+            <h1 className='text-[13px] sm:text-[14px] pl-4 sm:pl-0'>(0251) 8625584</h1>
+          </div>
+        </div>
+        <div className=' text-slate-100 sm:mt-8 ml-4 sm:ml-10'>
+          <div>
+            <h1 className='font-bold pt-3 sm:pt-0 mb-2'>Address</h1>
+            <h1 className='md:w-[300px] w-full text-[13px] sm:text-[14px]'>CRC Building, 2nd Floor, STP Area
+            IPB Taman Kencana Campus, Taman Kencana St. No. 3, Bogor, 16128
+            </h1>
+          </div>
+          <div className='mt-6'>
+            <h1 className='font-bold pt-7 sm:pt-0 pl-4 sm:pl-0 mb-2 '>Kontak</h1>
+            <h1 className='text-[13px] sm:text-[14px] mb-1 pl-4 sm:pl-0'>Phone: +62 251 8373561</h1>
+            <h1 className='text-[13px] sm:text-[14px] mb-1 pl-4 sm:pl-0'>Fax: +62 251 8347525</h1>
+            <h1 className='text-[13px] sm:text-[14px] pl-4 sm:pl-0'>Mobile: +62 812-8868-1757</h1>
+          </div>
+          <div className='mt-6'>
+            <h1 className='font-bold pt-7 sm:pt-0 pl-4 sm:pl-0 mb-2 '>Email dan Website</h1>
+            <h1 className='text-[13px] sm:text-[14px] mb-1 pl-4 sm:pl-0'>bfarmaka[a]gmail.com</h1>
+            <h1 className='text-[13px] sm:text-[14px] mb-1 pl-4 sm:pl-0'>tropbrc[a]apps.ipb.ac.id</h1>
+            <h1 className='text-[13px] sm:text-[14px] pl-4 sm:pl-0'>http://biofarmaka.ipb.ac.id</h1>
+          </div>
+        </div>
+      </div>
+      <hr className='mt-5'/>
+      <h1 className='pl-4 sm:pl-0 mt-7 sm:mt-0 text-[13px] sm:text-[14px] text-slate-100 sm:text-center mb-2 sm:mb-0'>© 2024. Computer Science, Institut Pertanian Bogor</h1>
+    </div>
+  )
+}

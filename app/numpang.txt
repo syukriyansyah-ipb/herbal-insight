@@ -1,0 +1,21 @@
+import React from 'react'
+
+export default function Footer() {
+  return (
+    <div className=' w-full h-[260px] sm:h-[150px] bg-gradient-to-b from-[#5C8359] to-[#274931]'>
+      <div className='sm:flex sm:justify-between'>
+        <div className=' text-slate-100 sm:mt-4 ml-4 sm:ml-10'>
+          <h1 className='font-bold pt-3 sm:pt-0 mb-2'>Address</h1>
+          <h1 className='md:w-[300px] w-full text-[13px] sm:text-[14px]'>Wing 20, Jl. Meranti Kampus IPB Level 5,
+            Babakan, Kec. Dramaga, Kabupaten Bogor, Jawa Barat 16680</h1>
+        </div>
+        <div className='sm:mt-4 sm:mr-10 text-slate-100'>
+          <h1 className='font-bold pt-7 sm:pt-0 pl-4 sm:pl-0 mb-2 '>Kontak</h1>
+          <h1 className='text-[13px] sm:text-[14px] mb-1 pl-4 sm:pl-0'>ilkom@apps.ipb.ac.id</h1>
+          <h1 className='text-[13px] sm:text-[14px] pl-4 sm:pl-0'>(0251) 8625584</h1>
+        </div>
+      </div>
+      <h1 className='pl-4 sm:pl-0 mt-7 sm:mt-0 text-[13px] sm:text-[14px] text-slate-100 sm:text-center mb-2 sm:mb-0'>© 2024. Computer Science, Institut Pertanian Bogor</h1>
+    </div>
+  )
+}

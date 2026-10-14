@@ -1,0 +1,234 @@
+"use client";
+import Image from "next/image";
+import { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation'; // Impor useRouter
+import Link from "next/link";
+import { Input } from "@/components";
+import { CiSearch } from "react-icons/ci";
+import { searchPlants } from "@/api/plants";
+import { CgRename } from "react-icons/cg";
+import Footer from "@/components/Footer";
+import { SiLevelsdotfyi } from "react-icons/si";
+import { GiPlantSeed } from "react-icons/gi";
+import { PiGraphFill } from "react-icons/pi";
+import { PiPlant } from "react-icons/pi";
+// import Popup from "@/components/Popup";
+import { HiArrowNarrowRight } from "react-icons/hi";
+import { RiInformationFill } from "react-icons/ri";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
+
+export default function Home({ params }) {
+  useEffect(() => {
+    AOS.init();
+  }, [])
+
+  const [query, setQuery] = useState("");
+  const [plantList, setPlantList] = useState([]);
+  const [showSuggestion, setShowSuggestion] = useState(false);
+  const router = useRouter();
+  function handleQuery(e) {
+    setQuery(e);
+    setShowSuggestion(true);
+  }
+
+  useEffect(() => {
+    const getPlants = async () => {
+      const plants = await searchPlants(query);
+      setPlantList(plants?.nodes);
+    };
+    if (query) {
+      getPlants();
+    }
+  }, [query]);
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && query) {
+      router.push(`/plants/PlantList?q=${query}`);
+    }
+    setShowSuggestion(false);
+  };
+
+  const [language, setLanguage] = useState(true);
+
+  const toggleLanguage = () => {
+    setLanguage(!language);
+  };
+  return (
+    <section className="h-full w-full">
+      <div className="flex flex-col w-full h-[810px] bg-wallpaper-search bg-cover bg-center overflow-hidden">
+        <nav className="flex items-center justify-between px-5 py-1" data-aos="fade-down" data-aos-duration='800' >
+          <div className="flex gap-2">
+            <Image src="/assets/images/logoIpb.png" alt="logo-IPB" width={100} height={100} className="-mt-3 lg:w-20 lg:h-24 sm:w-[82px] md:w-[92px] w-[62px] h-16 cursor-pointer" />
+            <Image src="/assets/images/logo.png" alt="logo" width={100} height={100} className="lg:w-28 sm:w-[90px] md:w-[100px] w-[70px] mb-20 h-16 -mt-3 cursor-pointer" />
+          </div>
+          <div className="flex relative mx-auto w-1/2 items-center justify-center mt-7 lg:mt-5">
+            <div className="relative w-full min-h-40 mt-3 ">
+              <Input
+                placeholder="Search medical plant..."
+                value={query}
+                onChange={(e) => handleQuery(e.target.value)}
+                handleButton={() => router.push(`/plants/PlantList?q=${query}`)}
+                onKeyDown={handleKeyPress}
+                Icon={CiSearch}
+                style={`${showSuggestion && "rounded-t-[20px] rounded-b border-green-700"
+                  }`}
+              />
+            </div>
+            {showSuggestion && query && (
+              <div className="absolute bg-white w-full -translate-y-2 rounded-b-[20px] border-x border-b border-green-700">
+                <ul className="pt-2 pb-5 text-sm md:text-base">
+                  {query.length >= 3 ? (
+                    plantList?.length > 0 ? (
+                      <>
+                        {plantList?.slice(0, 4).map((item) => (
+                          <li key={item?.id}>
+                            <Link href={`/plants/${item?.properties?.label}`}>
+                              <div className="px-5 hover:bg-gray-200 py-2">
+                                {item?.properties?.label}
+                              </div>
+                            </Link>
+                          </li>
+                        ))}
+                        <li className="text-yellow-500 underline text-[11px] md:text-sm">
+                          <Link href={`/plants?q=${query}`}>
+                            {console.log(query)}
+                            <div className="px-5">View more</div>
+                          </Link>
+                        </li>
+                      </>
+                    ) : (
+                      <li className="text-gray-600 py-2">
+                        <div className="px-5">Medical plant not found</div>
+                      </li>
+                    )
+                  ) : (
+                    <li className="text-gray-600 py-2">
+                      <div className="px-5">Ketikan 3 huruf...</div>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
+          </div>
+          <ul className="flex md:space-x-4 space-x-2 lg:mb-[70px] mb-[80px] pb-4 md:mt-3">
+            <li className="inline-block text-center md:py-[10px] sm:py-[6px] py-[7px] md:px-3 sm:px-2 px-3 sm:bg-white bg-[#426948] sm:text-[#426948] text-white border sm:rounded-l-3xl sm:rounded-none rounded-3xl font-extrabold -mr-4 mt-3">
+              <button onClick={() => router.push('/auth/login')}>Log In</button>
+            </li>
+            <li className="sm:inline-block hidden text-center md:py-[10px] sm:py-[6px] md:px-3 px-2 bg-[#426948] text-white border rounded-r-3xl font-semibold">
+              <button onClick={() => router.push('/auth/register')}>Sign Up</button>
+            </li>
+          </ul>
+        </nav>
+
+        <div className="text-center" data-aos="fade-up" data-aos-duration='800'>
+          <h1 className="font-bold text-[#1A3626]  text-lg tracking-widest">WELCOME TO HERBAL INSIGHT</h1>
+          <h1 className="lg:text-[80px] md:text-[70px] sm:text-[60px] text-[45px] mt-[50px] sm:mt-6 md:mt-2 lg:mt-0 font-bold mb-2 lg:mb-0 tracking-wider text-[#426948]">Knowledge of</h1>
+          <h1 className="lg:text-[80px] md:text-[70px] sm:text-[60px] text-[45px] font-bold mb-4 sm:mb-1 text-[#426948] tracking-wider">Medicinal Plants</h1>
+        </div>
+
+        <div className="mx-auto mt-2" data-aos="fade-up" data-aos-duration='800'>
+          <button onClick={() => router.push('/plants')} className="bg-[#426948] text-white px-2 py-2 rounded-lg mt-8 tracking-wider font-bold">Open Search</button>
+        </div>
+      </div>
+      <div className="-mt-[102px] ">
+        {
+          language ?
+            (<Image src="/assets/images/indonesia.png" alt="indonesia" width={50} height={50} onClick={toggleLanguage} className="cursor-pointer border" />)
+            :
+            (<Image src="/assets/images/inggris.jpg" alt="indonesia" width={50} height={50} onClick={toggleLanguage} className="cursor-pointer border" />
+            )
+        }
+      </div>
+      <div className="mt-20" >
+        <div className="md:flex gap-12">
+          <h1 className="text-[64px] font-bold text-[#26532C] md:w-[370px] w-full ml-10 pt-10" data-aos="fade-up" data-aos-duration='800'>Learn More About Us</h1>
+          
+          <div className="w-[360px] h-[254px] bg-[#FDFDFD] rounded-lg shadow-xl px-5 relative" data-aos="zoom-in" data-aos-duration='800'>
+            <div><PiPlant className="w-[30px] h-[30px] mt-5 text-[#26532C]" /></div>
+            <h1 className="text-3xl text-[#26532C] font-semibold my-3">{language ? "Plant Names" : "Nama Tumbuhan"}</h1>
+            <p className={`text-[#6C9167] font-semibold ${!language && 'text-sm leading-[22px]'}`}>
+              {language ?
+                "The naming of plants involves scientific names, common names in a country, and local names in Indonesian ethnicities."
+                :
+                "Penamaan tumbuhan melibatkan nama ilmiah, nama umum di suatu negara, dan nama lokal di etnis Indonesia."}
+            </p>
+            <HiArrowNarrowRight className="bg-[#5D8C63] text-white w-[60px] h-[45px] absolute bottom-0 right-0 rounded-br-lg" />
+          </div>
+          <div className="w-[360px] h-[254px] bg-[#FDFDFD] rounded-lg shadow-xl px-5 relative" data-aos="zoom-in" data-aos-duration='800'>
+            <div><GiPlantSeed className="w-[30px] h-[30px] mt-5 text-[#26532C]" /></div>
+            <h1 className="text-3xl text-[#26532C] font-semibold my-3">{language ? "Tradisional Use" : "Penggunaan Tradisional"}</h1>
+            <p className={`text-[#6C9167] font-semibold ${!language && 'text-sm leading-[22px]'}`}>
+              {language ?
+                "Knowledge of the traditional use of plants by an ethnic group in indonesia."
+                :
+                "Pengetahuan tentang penggunaan tradisional tumbuhan oleh suatu kelompok etnis di Indonesia."
+              }
+            </p>
+            <HiArrowNarrowRight className="bg-[#26532C] text-white w-[60px] h-[45px] absolute bottom-0 right-0 rounded-br-lg cursor-pointer" />
+          </div>
+        </div>
+
+        <div className="flex gap-12 mt-[48px]" >
+          <div className="w-[370px] h-[254px] bg-[#FDFDFD] rounded-lg shadow-xl px-5 relative ml-10" data-aos="zoom-in" data-aos-duration='800' >
+            <div><RiInformationFill className="w-[30px] h-[30px] mt-5 text-[#26532C]" /></div>
+            <h1 className="text-3xl text-[#26532C] font-semibold my-3">{language ? "About Us" : "Tentang Kami"}</h1>
+            <p className={`text-[#6C9167] font-semibold ${!language && 'text-sm leading-[23px]'}`}>
+              {language ? "Herbal Insight is a Knowledge Management System (KMS) specifically designed to store, manage, and represent knowledge about traditional medicinal plants of Indonesia." :
+                "Herbal Insight adalah Sistem Manajemen Pengetahuan (Knowledge Management System/KMS) yang dirancang khusus untuk menyimpan, mengelola, dan merepresentasikan pengetahuan mengenai tumbuhan obat tradisional Indonesia."}
+            </p>
+          </div>
+          <div className="w-[360px] h-[254px] bg-[#FDFDFD] rounded-lg shadow-xl px-5 relative" data-aos="zoom-in" data-aos-duration='800'>
+            <div><SiLevelsdotfyi className="w-[30px] h-[30px] mt-5 text-[#26532C]" /></div>
+            <h1 className="text-3xl text-[#26532C] font-semibold my-3">{language ? "Taxonomy" : "Taksonomi"}</h1>
+            <p className={`text-[#6C9167] font-semibold ${!language && 'text-sm leading-[22px]'}`}>
+              {language ?
+                "Taxonomy is the science that studies the classification, identification, and naming of organisms based on their characteristics."
+                :
+                "Taxonomi adalah ilmu yang mempelajari klasifikasi, identifikasi, dan penamaan organisme berdasarkan karakteristik mereka."
+              }
+            </p>
+            <HiArrowNarrowRight className="bg-[#5D8C63] text-white w-[60px] h-[45px] absolute bottom-0 right-0 rounded-br-lg" />
+          </div>
+          <div className="w-[360px] h-[254px] bg-[#FDFDFD] rounded-lg shadow-xl px-5 relative" data-aos="zoom-in" data-aos-duration='800'>
+            <div><PiGraphFill className="w-[30px] h-[30px] mt-5 text-[#26532C]" /></div>
+            <h1 className="text-3xl text-[#26532C] font-semibold my-3">{language ? "Pharmacology" : "Farmakologi"}</h1>
+            <p className={`text-[#6C9167] font-semibold ${!language && 'text-sm leading-[22px]'}`}>
+              {language ?
+                "Knowledge of plant pharmacology, such as compounds, interactions between proteins and compounds, side effects, and others."
+                :
+                "Pengetahuan tentang farmakologi tumbuhan, seperti senyawa-senyawa, interaksi antara protein dan senyawa-senyawa, efek samping, dan hal-hal lainnya."}
+            </p>
+            <HiArrowNarrowRight className="bg-[#5D8C63] text-white w-[60px] h-[45px] absolute bottom-0 right-0 rounded-br-lg cursor-pointer" />
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-40 bg-[#6C9167] h-[540px] relative">
+        <div className="absolute bottom-0 left-0">
+          <Image src="/assets/images/contributor.png" alt="logo" width={450} height={450} data-aos="fade-right" className=" hidden lg:inline-block " />
+        </div>
+        <div className="text-center pl-72 pt-20">
+          <div className="text-white">
+            <h1 className="font-semibold md:text-xl sm:text-lg text-base mt-14 " data-aos="fade-down" data-aos-duration='800'>
+              {language ? "MANAGING ACTORS" : "AKTOR PENGELOLA"}</h1>
+            <h1 className="md:text-[40px] sm:text-[35px] text-[30px] font-bold " data-aos="fade-down" data-aos-duration='800'>
+              {language ? "What Contributors Do?" : "Apa yang dilakukan oleh Kontributor?"}</h1>
+            <p data-aos="fade-up" data-aos-duration='800' className={`ml-36 lg:w-[700px] md:w-[650px] sm:w-[600px] w-[350px] mt-8 md:text-[19px] sm:text-[16px] text-[14px] font-bold leading-8 ${!language && 'ml-10'}`}>
+              {language ? "Contributors are responsible for managing traditional uses, methods of use, ethnic affiliations, coordinates, and references so that they can be displayed when other users search using the same keywords."
+                :
+                "kontributor bertanggung jawab mengelola penggunaan tradisional, metode penggunaan, afiliasi etnis, koordinat, dan referensi sehingga dapat ditampilkan ketika pengguna lain mencari menggunakan kata kunci yang sama."}
+            </p>
+            <div className="flex mt-12">
+              <button onClick={() => router.push('/auth/login')} data-aos="zoom-in" data-aos-duration='800' className="bg-[#EDBE44] hover:bg-[#e0b13a] py-2 px-2 rounded-lg border font-bold mx-auto text-white">
+                {language ? "Start Managing" : "Mulai mengelola"}</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <Footer  />
+    </section>
+  );
+}
