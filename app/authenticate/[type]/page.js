@@ -3,7 +3,6 @@
 import { useRef, useState, useEffect, Fragment } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { verifyToken, register, resendToken } from '@/api/auth';
 import { signIn, useSession } from "next-auth/react";
 import { PiPlantFill } from "react-icons/pi";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";

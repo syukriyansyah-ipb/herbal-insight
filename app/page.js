@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'; // Impor useRouter
 import Link from "next/link";
 import { Input } from "@/components";
 import { CiSearch } from "react-icons/ci";
-import { searchPlants } from "@/api/plants";
 import { CgRename } from "react-icons/cg";
 import Footer from "@/components/Footer";
 import { SiLevelsdotfyi } from "react-icons/si";
@@ -18,7 +17,6 @@ import { RiInformationFill } from "react-icons/ri";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { IoReload } from "react-icons/io5";
-import pharmacology from "@/store/reducers/pharmacology";
 
 
 export default function Home({ params }) {
