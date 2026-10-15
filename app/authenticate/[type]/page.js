@@ -37,7 +37,7 @@ export default function Auth({ params }) {
         if (session) {
             const userRole = session.user?.role; // Assuming role is present in the session object
             if (userRole === 'superadmin' || userRole === 'admin') {
-                router.push('/management');
+                router.push('/');
             } else if (userRole === 'contributor') {
                 router.push('/contributor');
             }
